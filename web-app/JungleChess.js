@@ -40,20 +40,12 @@ const TRAPS = Object.freeze({
   ])
 });
 
-const WATER = Object.freeze([
-  Object.freeze({ x: 1, y: 3 }),
-  Object.freeze({ x: 2, y: 3 }),
-  Object.freeze({ x: 4, y: 3 }),
-  Object.freeze({ x: 5, y: 3 }),
-  Object.freeze({ x: 1, y: 4 }),
-  Object.freeze({ x: 2, y: 4 }),
-  Object.freeze({ x: 4, y: 4 }),
-  Object.freeze({ x: 5, y: 4 }),
-  Object.freeze({ x: 1, y: 5 }),
-  Object.freeze({ x: 2, y: 5 }),
-  Object.freeze({ x: 4, y: 5 }),
-  Object.freeze({ x: 5, y: 5 })
-]);
+const riverColumns = [1, 2, 4, 5];
+const riverRows = [3, 4, 5];
+
+const WATER = Object.freeze(riverRows.flatMap(y =>
+  riverColumns.map(x => Object.freeze({ x, y }))
+));
 
 const pieceInfo = type => PIECES.find(piece => piece.type === type);
 
@@ -70,7 +62,7 @@ const makePiece = (player, type, x, y) => {
   });
 };
 
-const startingPieces = Object.freeze([
+const initialPieces = Object.freeze([
   makePiece("red", "lion", 0, 0),
   makePiece("red", "tiger", 6, 0),
   makePiece("red", "dog", 1, 1),
@@ -124,7 +116,7 @@ const freezeGame = game => Object.freeze({
  * @returns {Readonly<object>} A new immutable game state.
  */
 const newGame = () => freezeGame({
-  pieces: startingPieces,
+  pieces: initialPieces,
   turn: "blue",
   status: "playing",
   winner: null,
@@ -167,7 +159,7 @@ const pieceAt = (position, game) =>
  * @returns {object|null} Starting animal mark, or null for ordinary squares.
  */
 const initialMarkAt = position => {
-  const markedPiece = startingPieces.find(piece => samePosition(piece.position, position));
+  const markedPiece = initialPieces.find(piece => samePosition(piece.position, position));
   return markedPiece
     ? Object.freeze({
       player: markedPiece.player,
@@ -237,27 +229,17 @@ const canEnter = (piece, destination) =>
   denOwner(destination) !== piece.player &&
   (piece.type === "rat" || !isWater(destination));
 
-const orthogonalNeighbours = ({ x, y }) => [
-  { x: x + 1, y },
-  { x: x - 1, y },
-  { x, y: y + 1 },
-  { x, y: y - 1 }
-].filter(insideBoard);
+const orthogonalDirections = Object.freeze([
+  Object.freeze({ x: 1, y: 0 }),
+  Object.freeze({ x: -1, y: 0 }),
+  Object.freeze({ x: 0, y: 1 }),
+  Object.freeze({ x: 0, y: -1 })
+]);
 
-const rangeBetween = (from, to) => {
-  if (from.x === to.x) {
-    const minY = Math.min(from.y, to.y) + 1;
-    const maxY = Math.max(from.y, to.y);
-    return Array.from({ length: maxY - minY }, (_, index) => ({ x: from.x, y: minY + index }));
-  }
-
-  const minX = Math.min(from.x, to.x) + 1;
-  const maxX = Math.max(from.x, to.x);
-  return Array.from({ length: maxX - minX }, (_, index) => ({ x: minX + index, y: from.y }));
-};
+const riverJumpers = Object.freeze(["lion", "tiger"]);
 
 const jumpDestination = (piece, from, direction, game) => {
-  if (!["lion", "tiger"].includes(piece.type)) {
+  if (!riverJumpers.includes(piece.type)) {
     return null;
   }
 
@@ -284,14 +266,7 @@ const jumpDestination = (piece, from, direction, game) => {
 };
 
 const candidateDestinations = (piece, game) => {
-  const directions = [
-    { x: 1, y: 0 },
-    { x: -1, y: 0 },
-    { x: 0, y: 1 },
-    { x: 0, y: -1 }
-  ];
-
-  return directions
+  return orthogonalDirections
     .map(direction => jumpDestination(piece, piece.position, direction, game) ??
       { x: piece.position.x + direction.x, y: piece.position.y + direction.y })
     .filter(insideBoard);

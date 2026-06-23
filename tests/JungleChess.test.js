@@ -8,11 +8,11 @@ import JungleChess from "../web-app/JungleChess.js";
  * rules, and reporting victory. Tests assert observable behaviour only.
  */
 
-const piece = (player, type, rank, position) => ({
-  id: `${player}-${type}-${position.x}-${position.y}`,
+const testPiece = (player, type, rank, position) => ({
+  id: `${player}-${type}-for-test`,
   player,
   type,
-  label: type,
+  label: type[0].toUpperCase() + type.slice(1),
   rank,
   symbol: type[0].toUpperCase(),
   position
@@ -88,7 +88,7 @@ describe("JungleChess classic API", () => {
 
   it("prevents non-rat animals from entering water", () => {
     const game = gameWith([
-      piece("blue", "cat", 2, { x: 1, y: 2 })
+      testPiece("blue", "cat", 2, { x: 1, y: 2 })
     ]);
 
     assert.equal(hasMove(JungleChess.validMoves({ x: 1, y: 2 }, game), { x: 1, y: 3 }), false);
@@ -96,7 +96,7 @@ describe("JungleChess classic API", () => {
 
   it("allows Rat to enter water", () => {
     const game = gameWith([
-      piece("blue", "rat", 1, { x: 1, y: 2 })
+      testPiece("blue", "rat", 1, { x: 1, y: 2 })
     ]);
 
     assert.equal(hasMove(JungleChess.validMoves({ x: 1, y: 2 }, game), { x: 1, y: 3 }), true);
@@ -104,7 +104,7 @@ describe("JungleChess classic API", () => {
 
   it("allows Lion and Tiger to jump a clear river", () => {
     const game = gameWith([
-      piece("blue", "lion", 7, { x: 0, y: 3 })
+      testPiece("blue", "lion", 7, { x: 0, y: 3 })
     ]);
 
     assert.equal(hasMove(JungleChess.validMoves({ x: 0, y: 3 }, game), { x: 3, y: 3 }), true);
@@ -112,8 +112,8 @@ describe("JungleChess classic API", () => {
 
   it("blocks Lion and Tiger river jumps when a Rat is in the water", () => {
     const game = gameWith([
-      piece("blue", "lion", 7, { x: 0, y: 3 }),
-      piece("red", "rat", 1, { x: 1, y: 3 })
+      testPiece("blue", "lion", 7, { x: 0, y: 3 }),
+      testPiece("red", "rat", 1, { x: 1, y: 3 })
     ]);
 
     assert.equal(hasMove(JungleChess.validMoves({ x: 0, y: 3 }, game), { x: 3, y: 3 }), false);
@@ -138,8 +138,8 @@ describe("JungleChess classic API", () => {
 
   it("makes pieces in opponent traps capturable by lower ranked pieces", () => {
     const game = gameWith([
-      piece("blue", "rat", 1, { x: 2, y: 7 }),
-      piece("red", "elephant", 8, { x: 2, y: 8 })
+      testPiece("blue", "rat", 1, { x: 2, y: 7 }),
+      testPiece("red", "elephant", 8, { x: 2, y: 8 })
     ]);
 
     assert.equal(hasMove(JungleChess.validMoves({ x: 2, y: 7 }, game), { x: 2, y: 8 }), true);
@@ -147,7 +147,7 @@ describe("JungleChess classic API", () => {
 
   it("does not allow a piece to enter its own den", () => {
     const game = gameWith([
-      piece("blue", "rat", 1, { x: 3, y: 7 })
+      testPiece("blue", "rat", 1, { x: 3, y: 7 })
     ]);
 
     assert.equal(hasMove(JungleChess.validMoves({ x: 3, y: 7 }, game), { x: 3, y: 8 }), false);
@@ -155,7 +155,7 @@ describe("JungleChess classic API", () => {
 
   it("detects victory when a piece enters the opponent den", () => {
     const game = gameWith([
-      piece("blue", "rat", 1, { x: 3, y: 1 })
+      testPiece("blue", "rat", 1, { x: 3, y: 1 })
     ]);
     const finished = JungleChess.move({ x: 3, y: 1 }, { x: 3, y: 0 }, game);
 

@@ -3,18 +3,20 @@ import JungleChess from "./JungleChess.js";
 let game = null;
 let selectedPosition = null;
 
-const boardElement = document.querySelector("#board");
-const statusElement = document.querySelector("#status");
-const lobbyElement = document.querySelector("#lobby");
-const gameShellElement = document.querySelector("#game-shell");
-const startGameButton = document.querySelector("#start-game");
-const newGameButton = document.querySelector("#new-game");
+const page = {
+  board: document.querySelector("#board"),
+  status: document.querySelector("#status"),
+  lobby: document.querySelector("#lobby"),
+  gameShell: document.querySelector("#game-shell"),
+  startGameButton: document.querySelector("#start-game"),
+  newGameButton: document.querySelector("#new-game")
+};
 
 const samePosition = (a, b) => a && b && a.x === b.x && a.y === b.y;
 
 const positionKey = ({ x, y }) => `${x},${y}`;
 
-const legalMoveKeys = () =>
+const legalMoveKeySet = () =>
   selectedPosition && game
     ? new Set(JungleChess.validMoves(selectedPosition, game).map(positionKey))
     : new Set();
@@ -42,12 +44,12 @@ const describeCell = (position, piece) => {
 
 const renderStatus = () => {
   if (!game) {
-    statusElement.textContent = "Ready";
+    page.status.textContent = "Ready to start";
     return;
   }
 
   const state = JungleChess.gameState(game);
-  statusElement.textContent = state.status === "won"
+  page.status.textContent = state.status === "won"
     ? `${state.winner.toUpperCase()} wins`
     : `${state.currentPlayer.toUpperCase()} to move`;
 };
@@ -57,6 +59,7 @@ const makePieceElement = piece => {
   pieceElement.className = `piece ${piece.player} ${piece.type}`;
   pieceElement.dataset.rank = piece.rank;
   pieceElement.dataset.symbol = piece.symbol;
+  pieceElement.setAttribute("aria-hidden", "true");
   pieceElement.textContent = pieceText(piece);
   return pieceElement;
 };
@@ -71,7 +74,7 @@ const handleCellClick = position => {
   }
 
   const piece = JungleChess.pieceAt(position, game);
-  const legalDestinations = legalMoveKeys();
+  const legalDestinations = legalMoveKeySet();
 
   if (selectedPosition && legalDestinations.has(positionKey(position))) {
     game = JungleChess.move(selectedPosition, position, game);
@@ -89,7 +92,7 @@ const handleCellClick = position => {
 
 const makeCellElement = position => {
   const piece = JungleChess.pieceAt(position, game);
-  const legalDestinations = legalMoveKeys();
+  const legalDestinations = legalMoveKeySet();
   const cell = document.createElement("button");
 
   cell.type = "button";
@@ -115,7 +118,7 @@ const makeCellElement = position => {
 
 function render() {
   if (!game) {
-    boardElement.replaceChildren();
+    page.board.replaceChildren();
     renderStatus();
     return;
   }
@@ -126,21 +129,21 @@ function render() {
     y: Math.floor(index / width)
   }));
 
-  boardElement.replaceChildren(...positions.map(makeCellElement));
+  page.board.replaceChildren(...positions.map(makeCellElement));
   renderStatus();
 }
 
 const startGame = () => {
   game = JungleChess.newGame();
   selectedPosition = null;
-  lobbyElement.hidden = true;
-  gameShellElement.hidden = false;
+  page.lobby.hidden = true;
+  page.gameShell.hidden = false;
   render();
 };
 
-startGameButton.addEventListener("click", startGame);
+page.startGameButton.addEventListener("click", startGame);
 
-newGameButton.addEventListener("click", () => {
+page.newGameButton.addEventListener("click", () => {
   game = JungleChess.newGame();
   selectedPosition = null;
   render();

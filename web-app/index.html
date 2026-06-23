@@ -19,7 +19,7 @@
           <p class="lobby-kicker">Classic Dou Shou Qi</p>
           <h2 id="lobby-title">Jungle Chess</h2>
           <p class="lobby-intro">
-            A two-player strategy board game where animals fight by rank and race to enter the opponent's den.
+            A two-player strategy game where animals fight by rank and try to reach the opponent's den.
           </p>
 
           <section class="how-to-play" aria-labelledby="rules-title">
@@ -29,7 +29,7 @@
               <li>Animals capture enemy animals of equal or lower rank.</li>
               <li>The Rat can capture the Elephant, but the Elephant cannot capture the Rat.</li>
               <li>Only Rats may enter rivers. Lions and Tigers can jump across clear rivers.</li>
-              <li>An animal standing in an enemy trap loses its rank protection.</li>
+              <li>Animals standing in enemy traps can be captured by any opposing animal.</li>
               <li>Move any animal into the opponent's den to win.</li>
             </ul>
           </section>
@@ -39,28 +39,28 @@
       </section>
 
       <section id="game-shell" class="game-shell" hidden>
-      <section aria-labelledby="board-title" class="board-section">
-        <h2 id="board-title" class="visually-hidden">Game board</h2>
-        <div id="board" class="board" role="grid" aria-label="Jungle Chess board"></div>
-      </section>
+        <section aria-labelledby="board-title" class="board-section">
+          <h2 id="board-title" class="visually-hidden">Game board</h2>
+          <div id="board" class="board" role="grid" aria-label="Jungle Chess board"></div>
+        </section>
 
-      <aside class="side-panel" aria-labelledby="pieces-title">
-        <h2 id="pieces-title">Classic Pieces</h2>
-        <dl class="piece-guide">
-          <div><dt>Rat</dt><dd>Rank 1, can capture Elephant</dd></div>
-          <div><dt>Cat</dt><dd>Rank 2</dd></div>
-          <div><dt>Dog</dt><dd>Rank 3</dd></div>
-          <div><dt>Wolf</dt><dd>Rank 4</dd></div>
-          <div><dt>Leopard</dt><dd>Rank 5</dd></div>
-          <div><dt>Tiger</dt><dd>Rank 6</dd></div>
-          <div><dt>Lion</dt><dd>Rank 7, jumps rivers</dd></div>
-          <div><dt>Elephant</dt><dd>Rank 8</dd></div>
-        </dl>
-        <p class="rules-note">
-          Rats enter rivers. Lions and Tigers jump clear rivers unless a Rat blocks the water. Trapped animals lose their rank.
-        </p>
-        <button id="new-game" type="button">New game</button>
-      </aside>
+        <aside class="side-panel" aria-labelledby="pieces-title">
+          <h2 id="pieces-title">Classic Pieces</h2>
+          <dl class="piece-guide">
+            <div><dt>Rat</dt><dd>Rank 1, can capture Elephant</dd></div>
+            <div><dt>Cat</dt><dd>Rank 2</dd></div>
+            <div><dt>Dog</dt><dd>Rank 3</dd></div>
+            <div><dt>Wolf</dt><dd>Rank 4</dd></div>
+            <div><dt>Leopard</dt><dd>Rank 5</dd></div>
+            <div><dt>Tiger</dt><dd>Rank 6</dd></div>
+            <div><dt>Lion</dt><dd>Rank 7, jumps rivers</dd></div>
+            <div><dt>Elephant</dt><dd>Rank 8</dd></div>
+          </dl>
+          <p class="rules-note">
+            Rats enter rivers. Lions and Tigers jump clear rivers unless a Rat blocks the water. Trapped animals lose their rank.
+          </p>
+          <button id="new-game" type="button">New game</button>
+        </aside>
       </section>
     </main>
   </body>
