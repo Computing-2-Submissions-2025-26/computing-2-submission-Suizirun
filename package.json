@@ -1,16 +1,13 @@
 {
-  "name": "computing-2-submission",
-  "type": "module",
+  "name": "jungle-chess-coursework",
   "version": "1.0.0",
-  "description": "",
-  "main": "web-app/Module.js",
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "ramda": "^0.32.0"
+  "description": "Imperial College Computing 2 style JavaScript web app for Jungle Chess.",
+  "type": "module",
+  "scripts": {
+    "test": "mocha \"tests/**/*.js\"",
+    "start": "node scripts/serve.mjs"
   },
   "devDependencies": {
-    "docdash": "^2.0.2",
-    "mocha": "^11.7.5"
+    "mocha": "^10.8.2"
   }
 }

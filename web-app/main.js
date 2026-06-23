@@ -54,7 +54,9 @@ const renderStatus = () => {
 
 const makePieceElement = piece => {
   const pieceElement = document.createElement("span");
-  pieceElement.className = `piece ${piece.player}`;
+  pieceElement.className = `piece ${piece.player} ${piece.type}`;
+  pieceElement.dataset.rank = piece.rank;
+  pieceElement.dataset.symbol = piece.symbol;
   pieceElement.textContent = pieceText(piece);
   return pieceElement;
 };
