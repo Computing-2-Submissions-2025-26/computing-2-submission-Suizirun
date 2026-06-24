@@ -1,6 +1,8 @@
 # Classic Jungle Chess Coursework App
 
-This project follows the Computing 2: Applications style split between:
+CID: 02603669
+
+This project follows the sample structure of which Applications style split between:
 
 - `web-app/JungleChess.js`: pure game logic module.
 - `web-app/index.html`: semantic page structure.
