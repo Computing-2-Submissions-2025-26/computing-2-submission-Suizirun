@@ -61,6 +61,45 @@ h1 {
   font-weight: 800;
 }
 
+.victory-banner {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(20, 34, 18, 0.48);
+}
+
+.victory-banner[hidden] {
+  display: none;
+}
+
+.victory-card {
+  display: grid;
+  gap: 0.9rem;
+  width: min(100%, 26rem);
+  padding: 1.4rem;
+  border: 3px solid rgba(255, 236, 156, 0.9);
+  background:
+    linear-gradient(135deg, rgba(255, 248, 230, 0.96), rgba(227, 239, 191, 0.96)),
+    var(--panel);
+  text-align: center;
+  box-shadow: 0 1.4rem 2.6rem rgba(11, 25, 10, 0.38);
+}
+
+.victory-kicker {
+  color: #376524;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.victory-card h2 {
+  margin: 0;
+  font-size: clamp(2rem, 7vw, 3.6rem);
+  line-height: 1;
+}
+
 .lobby {
   display: grid;
   place-items: center;

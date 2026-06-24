@@ -6,9 +6,12 @@ let selectedPosition = null;
 const page = {
   board: document.querySelector("#board"),
   status: document.querySelector("#status"),
+  victoryBanner: document.querySelector("#victory-banner"),
+  victoryMessage: document.querySelector("#victory-message"),
   lobby: document.querySelector("#lobby"),
   gameShell: document.querySelector("#game-shell"),
   startGameButton: document.querySelector("#start-game"),
+  playAgainButton: document.querySelector("#play-again"),
   newGameButton: document.querySelector("#new-game")
 };
 
@@ -45,13 +48,22 @@ const describeCell = (position, piece) => {
 const renderStatus = () => {
   if (!game) {
     page.status.textContent = "Ready to start";
+    page.victoryBanner.hidden = true;
     return;
   }
 
   const state = JungleChess.gameState(game);
-  page.status.textContent = state.status === "won"
-    ? `${state.winner.toUpperCase()} wins`
-    : `${state.currentPlayer.toUpperCase()} to move`;
+
+  if (state.status === "won") {
+    const message = `${state.winner.toUpperCase()} wins!`;
+    page.status.textContent = message;
+    page.victoryMessage.textContent = message;
+    page.victoryBanner.hidden = false;
+    return;
+  }
+
+  page.status.textContent = `${state.currentPlayer.toUpperCase()} to move`;
+  page.victoryBanner.hidden = true;
 };
 
 const makePieceElement = piece => {
@@ -133,9 +145,14 @@ function render() {
   renderStatus();
 }
 
-const startGame = () => {
+const resetGame = () => {
   game = JungleChess.newGame();
   selectedPosition = null;
+  page.victoryBanner.hidden = true;
+};
+
+const startGame = () => {
+  resetGame();
   page.lobby.hidden = true;
   page.gameShell.hidden = false;
   render();
@@ -144,8 +161,12 @@ const startGame = () => {
 page.startGameButton.addEventListener("click", startGame);
 
 page.newGameButton.addEventListener("click", () => {
-  game = JungleChess.newGame();
-  selectedPosition = null;
+  resetGame();
+  render();
+});
+
+page.playAgainButton.addEventListener("click", () => {
+  resetGame();
   render();
 });
 
