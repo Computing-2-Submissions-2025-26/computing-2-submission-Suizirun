@@ -6,6 +6,7 @@ let selectedPosition = null;
 const page = {
   board: document.querySelector("#board"),
   status: document.querySelector("#status"),
+  moveSound: document.querySelector("#move-sound"),
   victoryBanner: document.querySelector("#victory-banner"),
   victoryMessage: document.querySelector("#victory-message"),
   lobby: document.querySelector("#lobby"),
@@ -66,6 +67,13 @@ const renderStatus = () => {
   page.victoryBanner.hidden = true;
 };
 
+const playMoveSound = () => {
+  page.moveSound.currentTime = 0;
+  page.moveSound.play().catch(() => {
+    // Some browsers refuse audio if the user has disabled sound.
+  });
+};
+
 const makePieceElement = piece => {
   const pieceElement = document.createElement("span");
   pieceElement.className = `piece ${piece.player} ${piece.type}`;
@@ -91,6 +99,7 @@ const handleCellClick = position => {
   if (selectedPosition && legalDestinations.has(positionKey(position))) {
     game = JungleChess.move(selectedPosition, position, game);
     selectedPosition = null;
+    playMoveSound();
     render();
     return;
   }
