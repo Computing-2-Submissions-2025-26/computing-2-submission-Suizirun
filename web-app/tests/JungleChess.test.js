@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import JungleChess from "../web-app/JungleChess.js";
+import JungleChess from "../JungleChess.js";
 
 /**
  * API specification:

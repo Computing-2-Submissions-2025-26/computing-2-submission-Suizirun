@@ -4,7 +4,7 @@
   "description": "Imperial College Computing 2 style JavaScript web app for Jungle Chess.",
   "type": "module",
   "scripts": {
-    "test": "mocha \"tests/**/*.js\"",
+    "test": "mocha \"web-app/tests/**/*.js\"",
     "start": "node scripts/serve.mjs"
   },
   "devDependencies": {
